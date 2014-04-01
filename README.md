@@ -1,4 +1,4 @@
-# EverFi: Financial Literacy
+# Chaplin with Controllers
 
 ## Documentation
 * [Getting Started](#getting-started)
