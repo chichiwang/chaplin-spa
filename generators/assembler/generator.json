@@ -1,0 +1,8 @@
+{
+	"files": [
+		{
+			"from": "assembler.coffee.hbs",
+			"to": "app/assemblers/{{name}}-assembler.coffee"
+		}
+	]
+}

@@ -1,0 +1,6 @@
+Controller = require 'base/controller'
+{{#camelize}}{{name}}{{/camelize}}View = require './{{name}}-view'
+
+module.exports = class {{#camelize}}{{name}}{{/camelize}}Controller extends Controller
+	autoRender: false
+	view: {{#camelize}}{{name}}{{/camelize}}View

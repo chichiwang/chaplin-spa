@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "from": "controller.coffee.hbs",
+      "to": "{{parentPath}}/{{pluralName}}-controller.coffee"
+    }
+  ],
+  "dependencies": [
+    {"type": "collection", "parentPath": "{{parentPath}}"},
+
+    {"type": "collection-view", "name": "{{pluralName}}", "parentPath": "{{parentPath}}"},
+    {"type": "style", "name": "{{pluralName}}", "parentPath": "{{parentPath}}/styles"},
+    {"type": "template", "name": "{{pluralName}}", "parentPath": "{{parentPath}}/templates"}
+  ]
+}

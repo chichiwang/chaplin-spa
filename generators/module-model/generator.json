@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "from": "controller.coffee.hbs",
+      "to": "app/module/{{name}}/{{name}}-controller.coffee"
+    }
+  ],
+  "dependencies": [
+    {"type": "model"},
+
+    {"type": "view", "name": "{{name}}"},
+    {"type": "style", "name": "{{name}}"},
+    {"type": "template", "name": "{{name}}"}
+  ]
+}

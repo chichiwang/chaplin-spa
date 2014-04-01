@@ -1,0 +1,8 @@
+{
+	"files": [
+		{
+			"from": "empty",
+			"to": "app/module/{{name}}/templates/{{name}}.hbs"
+		}
+	]
+}
