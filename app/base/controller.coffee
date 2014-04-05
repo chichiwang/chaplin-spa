@@ -216,7 +216,9 @@ module.exports = class Controller
 		if @debounceDuration is 0
 			@resize()
 			return true
-		else db.gate @resize
+		else
+			resizeFn = @resize.bind @
+			db.gate resizeFn
 
 	# Orientation-change handlers
 	__initResizeOrientation: ->
