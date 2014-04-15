@@ -184,6 +184,7 @@ module.exports = class Controller
 		@view = new View @viewOptions
 		@el = @view.el
 		@$el = @view.$el
+		@$ = @view.$
 
 		if @collection or @collectionOptions
 			if @model and typeof @model is 'function'
