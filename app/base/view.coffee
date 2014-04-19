@@ -22,5 +22,6 @@ module.exports = class View extends Chaplin.View
 
 	dispose: ->
 		@$el?.off()
+		@$('*').off()
 		@unsubscribeAllEvents()
 		super

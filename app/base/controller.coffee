@@ -249,6 +249,7 @@ module.exports = class Controller
 		return if @disposed
 
 		@$el?.off()
+		@$('*').off()
 		@stopListening()
 		@unsubscribeAllEvents()
 		@undelegateEvents()
