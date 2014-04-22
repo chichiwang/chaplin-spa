@@ -8,10 +8,8 @@ module.exports = class Application extends Chaplin.Application
 		# Initialize the Application's resize handler
 		$(window).on ev.all.resize, @resize
 		$(window).on ev.all.orientationchange, @orientation
-		$(window).on 'hashchange', @temporaryreadystate
 		$(window).blur @onBlur
 		$(window).focus @onFocus
-		@temporaryreadystate()
 		super
 	# Replace the default Chaplin Layout object with our own custom Layout object
 	initLayout: (options = {}) ->
@@ -31,8 +29,3 @@ module.exports = class Application extends Chaplin.Application
 		@publishEvent ev.mediator.blur
 	onFocus: =>
 		@publishEvent ev.mediator.focus
-	temporaryreadystate: ->
-		$('body').removeClass('snapshot_ready')
-		setTimeout ->
-			$('body').addClass('snapshot_ready')
-		, 2000
