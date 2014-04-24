@@ -25,6 +25,7 @@ module.exports = class Controller
 	region: null
 	regions: null
 	container: null
+	containerMethod: null
 	id: null
 	className: null
 	tagName: null
@@ -47,34 +48,14 @@ module.exports = class Controller
 	useCssAnimation: null
 	animationStartClass: null
 	animationEndClass: null
-
-	__optionNames: [
-		'view', 'viewOptions',
-		'model', 'modelOptions',
-		'collection', 'collectionOptions',
-
-		'events', 'autoRender',
-		'el', 'region',
-		'container', 'id',
-		'className', 'tagName',
-		'transition', 'keepElement',
-		'autoResize', 'template',
-		'regions',
-
-		'itemController', 'renderItems',
-		'animationDuration', 'listSelector',
-		'itemSelector', 'loadingSelector',
-		'fallbackSelector', 'useCssAnimation',
-		'animationStartClass', 'animationEndClass'
-	]
-
+	
 	constructor: (options = {})->
 		@controllerId = new Date().getTime()
 		options = _.extend {}, options
 
 		# Copy some options to instance properties
 		if options
-			for optName, optValue of options when optName in @__optionNames
+			for optName, optValue of options
 				this[optName] = optValue
 		# Remove instance properties from options parameter
 		for optName in @__optionNames
@@ -106,8 +87,8 @@ module.exports = class Controller
 		if @collection
 			if !@itemController
 				throw new Error 'Collection Controllers must be passed an itemController'
-			if !@itemController.prototype.view
-				throw new Error 'itemController must have a view property defined'
+			if !@itemController.prototype.view or !@itemController.prototype.template
+				throw new Error 'itemController must have a view or template property defined'
 			if @itemController.prototype.view and typeof @itemController.prototype.view isnt 'function'
 				throw new Error 'itemController\'s view property must be a class definition'
 			if @model and typeof @model isnt 'function'
