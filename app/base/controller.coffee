@@ -48,7 +48,7 @@ module.exports = class Controller
 	useCssAnimation: null
 	animationStartClass: null
 	animationEndClass: null
-	
+
 	constructor: (options = {})->
 		@controllerId = new Date().getTime()
 		options = _.extend {}, options
@@ -57,9 +57,6 @@ module.exports = class Controller
 		if options
 			for optName, optValue of options
 				this[optName] = optValue
-		# Remove instance properties from options parameter
-		for optName in @__optionNames
-			delete options[optName]
 
 		@__initResizeOrientation()
 
@@ -78,11 +75,6 @@ module.exports = class Controller
 	initialize: ->
 		if !@view and !@template
 			throw new Error 'Controller must be passed a view or a template'
-
-		if @model
-			if typeof @model isnt 'function'
-				if !@model.get and typeof @model.get isnt 'function'
-					throw new Error 'Model must be a class definition or class instance'
 
 		if @collection
 			if !@itemController
@@ -133,9 +125,15 @@ module.exports = class Controller
 		@viewOptions.itemView = @itemController
 
 	__initModel: ->
-		if typeof @model is 'function'
+		model_is_class = typeof @model is 'function' and typeof @model.prototype.constructor is 'function'
+		model_is_instance = typeof @model is 'object' and @model.__proto__ and typeof @model.__proto__.dispose is 'function'
+		model_is_options = typeof @model is 'object' and !model_is_instance
+
+		if model_is_class
 			modelOptions = if @modelOptions then @modelOptions else {}
 			@model = new @model modelOptions
+		else if model_is_options
+			@model = new BaseModel @model
 		else if @modelOptions and !@model
 			@model = new BaseModel @modelOptions
 		@viewOptions.model = @model if @model
