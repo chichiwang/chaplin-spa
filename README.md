@@ -53,12 +53,11 @@ Refer to the [Scaffolt README](https://github.com/paulmillr/scaffolt/blob/master
 The development team has drafted up the following style conventions for this project.
 
 * HTML:
-    * Element classes will be all lower-case and use underscores to separate words (ex: `class="main_page"`).
-    * Element ids will be capital-case and use underscores to separate words (ex: `id="Page_Container"`).
+    * Element classes will be all lower-case and use hyphens to separate words (ex: `class="main-page"`).
+    * Element ids will be capital-case and use hyphens to separate words (ex: `id="Page-Container"`).
     * Reserve use of element ids to page level root elements and component root elements to avoid polluting the app with too many ids.
 * Stylesheets:
-    * Variables will be defined by a preceding dollar sign. They will be lowercase with underscores to separte words (ex: `$my_color = red`).
-    * Mixins will be defined by a preceding `$mx_`. They will be lowercase with underscores to separate words (ex: `$mx_my_mixin(values)`).
+    * Variables will be defined by a preceding dollar sign. They will be lowercase with hyphens to separte words (ex: `$my-color = red`).
 * Javascript:
     * Class objects will be capital-cased (ex: `class MyClass`).
     * Variable, function, and class Instance names will be camel-cased (ex: `myInstance = new MyClass`).
