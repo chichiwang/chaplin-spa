@@ -124,9 +124,9 @@ module.exports = class Controller
 		@viewOptions.itemView = _.cloneDeep(@itemController)
 
 	__initModel: ->
-		model_is_class = typeof @model is 'function' and typeof @model.prototype.constructor is 'function'
-		model_is_instance = typeof @model is 'object' and @model.__proto__ and typeof @model.__proto__.dispose is 'function'
-		model_is_options = typeof @model is 'object' and !model_is_instance and not _.isNull(@model)
+		model_is_class = _.isFunction(@model) and typeof @model.prototype.constructor is 'function'
+		model_is_instance = @model instanceof window.Backbone.Model
+		model_is_options = _.isObject(@model) and !model_is_instance and not _.isNull(@model)
 
 		if model_is_class
 			modelOptions = if @modelOptions then _.cloneDeep(@modelOptions) else {}
