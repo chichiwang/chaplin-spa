@@ -13,9 +13,9 @@ module.exports = class Layout extends Chaplin.Layout
 			$(el).remove()
 
 	beforeDisposeHandler: (assembler)->
-		@oldViewEl = assembler.presenter?.currentUnit?.el?
+		@oldViewEl = assembler.Page?
 	dispatchHandler: (assembler)->
-		upcomingEl = assembler.presenter?.currentUnit?.el?
+		upcomingEl = assembler.Page?
 		if @oldViewEl
 			options =
 				current: @oldViewEl
