@@ -9,7 +9,7 @@ module.exports = class View extends Chaplin.View
 	constructor: (options)->
 		_.extend @prototype, Chaplin.EventBroker
 		@controllerId = options.controllerId or null
-		@keepElement = options.keepElement if options.hasOwnProperty 'keepElement'
+		@keepElement = options.keepElement if _.has(options, 'keepElement')
 		super
 
 	attach: ->

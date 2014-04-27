@@ -9,7 +9,7 @@ module.exports = class CollectionView extends Chaplin.CollectionView
 	constructor: (options) ->
 		_.extend @prototype, Chaplin.EventBroker
 		@controllerId = options.controllerId or null
-		@keepElement = options.keepElement if options.hasOwnProperty 'keepElement'
+		@keepElement = options.keepElement if _.has(options, 'keepElement')
 		@listSelector = if options.listSelector then options.listSelector else undefined
 		@itemSelector = if options.itemSelector then options.itemSelector else undefined
 		super
