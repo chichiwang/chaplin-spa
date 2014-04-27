@@ -1,5 +1,5 @@
 ev = require 'util/events'
-db = require 'util/debouncer'
+# db = require 'util/debouncer'
 
 BaseView = require 'base/view'
 BaseModel = require 'base/model'
@@ -50,16 +50,15 @@ module.exports = class Controller
 	animationEndClass: null
 
 	constructor: (options = {})->
-		@controllerId = new Date().getTime()
-		options = _.extend {}, options
+		@controllerId = _.uniqueId()
+		options = _.cloneDeep options
 
 		# Copy some options to instance properties
-		if options
-			for optName, optValue of options
-				this[optName] = optValue
+		_.forOwn options, (val, key)->
+				this[key] = _.cloneDeep val
+		, @
 
 		@__initResizeOrientation()
-
 		# Fire the attached method once view has been attached
 		@subscribeEvent ev.mediator.view.appended, (cId)->
 			if cId is @controllerId
@@ -69,7 +68,7 @@ module.exports = class Controller
 		
 		# Begin execution
 		Chaplin.mediator.execute 'region:register', this if @regions?
-		@options = options
+		@options = _.cloneDeep options
 		@initialize()
 
 	initialize: ->
@@ -101,8 +100,8 @@ module.exports = class Controller
 
 		@viewOptions = {} if !@viewOptions
 		for value in viewValues
-			if !@viewOptions.hasOwnProperty value
-				@viewOptions[value] = this[value] if this[value] isnt null
+			if not _.contains @viewOptions, value
+				@viewOptions[value] = _.cloneDeep(this[value]) if this[value] isnt null
 
 		if @itemController
 			@__initCollectionViewOptions()
@@ -115,36 +114,36 @@ module.exports = class Controller
 		]
 
 		for value in collectionViewValues
-			if !@viewOptions.hasOwnProperty value
-				@viewOptions[value] = this[value] if this[value] isnt null
+			if not _.contains @viewOptions, value
+				@viewOptions[value] = this[value] if not _.isNull(this[value])
 
 		if @itemController.prototype.model
-			@model = @itemController.prototype.model
+			@model = _.cloneDeep(@itemController.prototype.model)
 			@itemController.prototype.model = null
 
-		@viewOptions.itemView = @itemController
+		@viewOptions.itemView = _.cloneDeep(@itemController)
 
 	__initModel: ->
 		model_is_class = typeof @model is 'function' and typeof @model.prototype.constructor is 'function'
 		model_is_instance = typeof @model is 'object' and @model.__proto__ and typeof @model.__proto__.dispose is 'function'
-		model_is_options = typeof @model is 'object' and !model_is_instance
+		model_is_options = typeof @model is 'object' and !model_is_instance and not _.isNull(@model)
 
 		if model_is_class
-			modelOptions = if @modelOptions then @modelOptions else {}
+			modelOptions = if @modelOptions then _.cloneDeep(@modelOptions) else {}
 			@model = new @model modelOptions
 		else if model_is_options
 			@model = new BaseModel @model
 		else if @modelOptions and !@model
-			@model = new BaseModel @modelOptions
-		@viewOptions.model = @model if @model
+			@model = new BaseModel _.cloneDeep(@modelOptions)
+		@viewOptions.model = _.cloneDeep(@model) if not _.isNull(@model)
 	__initCollection: ->
-		@collectionOptions = {} if !@collectionOptions
-		@collectionOptions.model = @model if @model and typeof @model is 'function'
-		if @collection and typeof @collection is "function"
-			@collection = new @collection @collectionOptions
+		@collectionOptions = {} if _.isNull(@collectionOptions)
+		@collectionOptions.model = _.cloneDeep(@model) if @model and _.isFunction @model
+		if @collection and _.isFunction @collection
+			@collection = new @collection _.cloneDeep(@collectionOptions)
 		else if @collectionOptions and !@collection
-			@collection = new BaseCollection @collectionOptions
-		@viewOptions.collection = @collection if @collection
+			@collection = new BaseCollection _.cloneDeep(@collectionOptions)
+		@viewOptions.collection = _.cloneDeep(@collection) if not _.isNull(@collection)
 
 	rendered: false
 	render: ->
@@ -193,12 +192,7 @@ module.exports = class Controller
 		# Default resize handler for module
 	__delegateResize: (e)->
 		return false if @autoResize is false
-		if @debounceDuration is 0
-			@resize()
-			return true
-		else
-			resizeFn = @resize.bind @
-			db.gate resizeFn
+		@resize()
 
 	# Orientation-change handlers
 	__initResizeOrientation: ->
@@ -207,7 +201,7 @@ module.exports = class Controller
 				setTimeout @__onceAttached, 20
 
 		if @debounceDuration > 0
-			db.init debounceDuration: @debounceDuration
+			@resize = _.throttle @resize, @debounceDuration
 
 		@subscribeEvent ev.mediator.resize, @__delegateResize
 		@subscribeEvent ev.mediator.orientation, @orientation
