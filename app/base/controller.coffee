@@ -135,7 +135,7 @@ module.exports = class Controller
 			@model = new BaseModel @model
 		else if @modelOptions and !@model
 			@model = new BaseModel _.cloneDeep(@modelOptions)
-		@viewOptions.model = _.cloneDeep(@model) if not _.isNull(@model)
+		@viewOptions.model = @model if not _.isNull(@model)
 	__initCollection: ->
 		@collectionOptions = {} if _.isNull(@collectionOptions)
 		@collectionOptions.model = _.cloneDeep(@model) if @model and _.isFunction @model
@@ -143,7 +143,7 @@ module.exports = class Controller
 			@collection = new @collection _.cloneDeep(@collectionOptions)
 		else if @collectionOptions and !@collection
 			@collection = new BaseCollection _.cloneDeep(@collectionOptions)
-		@viewOptions.collection = _.cloneDeep(@collection) if not _.isNull(@collection)
+		@viewOptions.collection = @collection if not _.isNull(@collection)
 
 	rendered: false
 	render: ->
