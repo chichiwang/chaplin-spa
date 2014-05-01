@@ -14,6 +14,7 @@ module.exports = class Controller
 
 	transition: 'slide'
 	autoResize: true
+	attachOnce: true
 
 	view: null
 	keepElement: null
@@ -63,7 +64,7 @@ module.exports = class Controller
 		@subscribeEvent ev.mediator.view.appended, (cId)->
 			if cId is @controllerId
 				setTimeout =>
-					@attached.call @
+					@__delegateAttached.call @
 				, 20
 		
 		# Begin execution
@@ -175,8 +176,14 @@ module.exports = class Controller
 	__reassignRender: ->
 		@render = @view.render
 
+	# Attached handlers
+	__attached: false
 	attached: ->
 		# Executes once view has been attached to DOM
+	__delegateAttached: ->
+		if @attachOnce is true and @__attached is true
+			return false
+		@attached
 
 	# Composer Methods
 	reuse: (name)->
