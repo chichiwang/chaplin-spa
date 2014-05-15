@@ -183,7 +183,7 @@ module.exports = class Controller
 	__delegateAttached: ->
 		if @attachOnce is true and @__attached is true
 			return false
-		@attached
+		@attached()
 
 	# Composer Methods
 	reuse: (name)->
