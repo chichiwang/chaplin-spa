@@ -10,7 +10,9 @@ inputEvents =
 		focus  : 'focus'
 		resize : 'resize'
 		scroll : 'scroll'
-		orientationchange : 'orientationchange'
+		orientationchange 	: 'orientationchange'
+		transitionend 		: 'transitionend msTransitionEnd webkitTransitionEnd'
+		animationend		: 'animationend msAnimationEnd oanimationend webkitAnimationEnd'
 	# Media events
 	media:
 		videoend : 'ended'
@@ -21,6 +23,8 @@ inputEvents =
 		orientation : 'window:orientation' # Fires when orientation change occurs
 		blur : 'window:blur' # Fires when window loses focus
 		focus : 'window:focus' # Fires when window gains focus
+		transitionend: 'window:transitionend' # Fires when window receives a transitionend event
+		animationend: 'window:animationend' # Fires when window receives an animationend event
 
 		view:
 			appended: 'view:append' # Fires when a view has been appended to the DOM

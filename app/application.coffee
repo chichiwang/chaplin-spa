@@ -8,6 +8,8 @@ module.exports = class Application extends Chaplin.Application
 		# Initialize the Application's resize handler
 		$(window).on ev.all.resize, @resize
 		$(window).on ev.all.orientationchange, @orientation
+		$(window).on ev.all.transitionend, @onTransitionEnd
+		$(window).on ev.all.animationend, @onAnimationEnd
 		$(window).blur @onBlur
 		$(window).focus @onFocus
 		super
@@ -29,3 +31,7 @@ module.exports = class Application extends Chaplin.Application
 		@publishEvent ev.mediator.blur
 	onFocus: =>
 		@publishEvent ev.mediator.focus
+	onTransitionEnd: (e)=>
+		@publishEvent ev.mediator.transitionend, e
+	onAnimationEnd: (e)=>
+		@publishEvent ev.mediator.animationend, e
