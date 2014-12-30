@@ -20,7 +20,7 @@ module.exports = class Layout extends Chaplin.Layout
 			options =
 				current: @oldViewEl
 				upcoming: upcomingEl
-			transitionMethod = assembler.presenter.currentUnit.transition
+			transitionMethod = assembler.transition
 			# flag the old view for collection
 			$(@oldViewEl).addClass 'garbage'
 			if _.isFunction transitionMethod
